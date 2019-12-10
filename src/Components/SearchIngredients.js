@@ -29,22 +29,24 @@ class SearchIngredients extends React.Component {
         this.setState({ ingredientsList: newArr })
     }
 
-    printRecipes() {
+    async printRecipes() {
+        this.recipeObjArray = await this.getRecipesFromAPI();
+        debugger
+        this.setState({ showMainPage: false });/* 
         this.getRecipesFromAPI().then((data) => {
             this.recipeObjArray = data;
             this.setState({ showMainPage: false })
-        });
+        }).catch((err) => {
+            console.log(err);
+        }); */
 
     }
 
     async getRecipesFromAPI() {
         console.log('got here');
-        const response = await fetch(`http://www.recipepuppy.com/api/?i=${this.state.ingredientsList}`,
-            { mode: 'no-cors' });
-       
-
-        debugger
-        /* const response = await fetch('https://dog.ceo/api/breeds/image/random'); */
+        /* const response = await fetch(`http://www.recipepuppy.com/api/?i=onions,garlic&q=omelet&p=3`,
+        {mode:'no-cors'}); */
+        const response = await fetch('https://dog.ceo/api/breeds/image/random');
         console.log(response);
         return await response.json();
 
@@ -81,22 +83,27 @@ class SearchIngredients extends React.Component {
                     </div>
                 </div>
             );
-            /*     } else {
-                    { debugger }
-                    return (
-                        <div>
-                            {this.recipeObjArray.map((recipe) => {
-                                return (
-                                    <div>
-                                        <Recipe title={recipe.title} ingredients={recipe.ingredients} link={recipe.href} photo={recipe.thumbnail} />
-                                    </div>
-                                );
-                            })}
-                        </div>
-                    );*/
+        } else {
+            return(
+
+                <div>{this.recipeObjArray.url}</div>
+            );
         }
+        /* } else {
+            return (
+                <div>
+                    {this.recipeObjArray.map((recipe) => {
+                        return (
+                            <div>
+                                <Recipe title={recipe.title} ingredients={recipe.ingredients} link={recipe.href} photo={recipe.thumbnail} />
+                            </div>
+                        );
+                    })}
+                </div>
+            );*/
     }
 }
+
 
 
 export default SearchIngredients;
