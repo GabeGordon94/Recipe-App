@@ -8,7 +8,7 @@ class SearchIngredients extends React.Component {
             ingredientsList: [],
             showMainPage: true
         }
-        this.recipeObjArray = {};
+        this.recipeObjArray = [];
     }
 
     added(ingredient) {
@@ -31,14 +31,13 @@ class SearchIngredients extends React.Component {
 
     async printRecipes() {
         this.recipeObjArray = await this.getRecipesFromAPI();
-        debugger
         this.setState({ showMainPage: false });
-
+        return null;
     }
 
     async getRecipesFromAPI() {
         console.log('got here');
-        const response = await fetch(`http://www.recipepuppy.com/api/?i=onions,garlic&q=omelet&p=3`);
+        const response = await fetch(`https://api.spoonacular.com/recipes/findByIngredients?apiKey=a3a214ea83184a19990692c16b8bfc42&ingredients=${this.state.ingredientsList}`);
         console.log(response);
         return await response.json();
 
@@ -76,18 +75,22 @@ class SearchIngredients extends React.Component {
                 </div>
             );
 
-            /* } else {
+             } else {
+                 console.log(this.recipeObjArray)
+                debugger
+                
                 return (
                     <div>
-                        {this.recipeObjArray.map((recipe) => {
+                        
+                        {this.recipeObjArray.map((recipe,i) => {
                             return (
-                                <div>
-                                    <Recipe title={recipe.title} ingredients={recipe.ingredients} link={recipe.href} photo={recipe.thumbnail} />
+                                <div key={i}>
+                                    <Recipe recipe={recipe} />
                                 </div>
                             );
                         })}
                     </div>
-                );*/
+                );
         }
     }
 }
