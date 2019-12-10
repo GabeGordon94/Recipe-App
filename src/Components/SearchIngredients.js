@@ -1,4 +1,5 @@
 import React from 'react';
+import SearchButton from './SearchButton'
 
 class SearchIngredients extends React.Component {
     constructor(prop) {
@@ -29,14 +30,13 @@ class SearchIngredients extends React.Component {
     render() {
         const { ingredientsList } = this.status;
         let counter = 0;
-        let borderClass = 'ingredientsList mt-3 border border-light';
         return (
             <div>
                 <input type="text" placeholder="Add Ingredients" id='addedIngredient'></input>
                 <button onClick={() => {
                     this.added(document.getElementById('addedIngredient'));
                 }}>Add</button>
-                <div className={borderClass}>
+                <div className="ingredientsList my-3 border border-light">
                     <h4>Ingredients List</h4>
                     {ingredientsList.map((ingredient, i) => {
                         counter++;
@@ -51,6 +51,7 @@ class SearchIngredients extends React.Component {
                         );
                     })}
                 </div>
+                    <SearchButton />
             </div>
         );
     }
