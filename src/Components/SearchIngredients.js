@@ -1,5 +1,5 @@
 import React from 'react';
-import Recipe from './Recipe'
+import Recipe from './Recipe/index'
 
 class SearchIngredients extends React.Component {
     constructor(prop) {
@@ -75,19 +75,19 @@ class SearchIngredients extends React.Component {
                 </div>
             );
 
-             } else {
-                 console.log(this.recipeObjArray)
-                return (
-                    <div>
-                        {this.recipeObjArray.map((recipe,i) => {
-                            return (
-                                <div key={i}>
-                                    <Recipe recipe={recipe} />
-                                </div>
-                            );
-                        })}
-                    </div>
-                );
+        } else {
+            console.log(this.recipeObjArray)
+            return (
+                <div>
+                    {this.recipeObjArray.map((recipe) => {
+                        return (
+                            <div key={recipe.id}>
+                                <Recipe recipe={recipe} />
+                            </div>
+                        );
+                    })}
+                </div>
+            );
         }
     }
 }

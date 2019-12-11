@@ -18,7 +18,6 @@ class MainPage extends React.Component {
 
     render() {
         const { mainPage, recipeList } = this.state;
-        
         if (mainPage && !recipeList) {
             return (
                 <div>
@@ -33,8 +32,7 @@ class MainPage extends React.Component {
         } else {
             return (
                 <div>
-
-                    alert("wow")
+                    {alert("wow")}
                 </div>
             )
         }
