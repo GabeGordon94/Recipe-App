@@ -37,7 +37,8 @@ class SearchIngredients extends React.Component {
 
     async getRecipesFromAPI() {
         console.log('got here');
-        const response = await fetch(`https://api.spoonacular.com/recipes/findByIngredients?apiKey=a3a214ea83184a19990692c16b8bfc42&ingredients=${this.state.ingredientsList}&ranking=1&ignorePantry=true`);
+        const response = await 
+        fetch(`https://api.spoonacular.com/recipes/findByIngredients?apiKey=a3a214ea83184a19990692c16b8bfc42&ingredients=${this.state.ingredientsList}&ranking=1&ignorePantry=true&limitLicense=true`);
         console.log(response);
         return await response.json();
 
@@ -76,7 +77,7 @@ class SearchIngredients extends React.Component {
             );
 
         } else {
-            console.log(this.recipeObjArray)
+            console.log(this.recipeObjArray);
             return (
                 <div>
                     {this.recipeObjArray.map((recipe) => {
