@@ -41,15 +41,12 @@ class SearchIngredients extends React.Component {
     }
 
     async getRecipesFromAPI() {
-        console.log('got here');
-        const response = await fetch(`https://api.spoonacular.com/recipes/findByIngredients?apiKey=${this.key}&ingredients=${this.state.ingredientsList}&ranking=1&ignorePantry=true`);
+        const response = await fetch(`https://api.spoonacular.com/recipes/findByIngredients?apiKey=${this.key}&ingredients=${this.state.ingredientsList}&ranking=1&ignorePantry=true&limitLicense=true`);
         return await response.json();
 
     }
     async getAutoCompleteFromAPI() {
         const response = await fetch(`https://api.spoonacular.com/food/ingredients/autocomplete?apiKey=${this.key}&query=${this.input}l&number=5`);
-        console.log("Response Before Json");
-        console.log(response)
         return await response.json();
     }
     async handleAutoComplete() {
@@ -94,7 +91,7 @@ class SearchIngredients extends React.Component {
             );
 
         } else {
-            console.log(this.recipeObjArray)
+            console.log(this.recipeObjArray);
             return (
                 <div>
                     {this.recipeObjArray.map((recipe) => {
