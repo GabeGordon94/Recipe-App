@@ -1,14 +1,20 @@
 import React from 'react';
 import Recipe from './Recipe/index'
+import AutoComplete from './AutoComplete';
 
 class SearchIngredients extends React.Component {
     constructor(prop) {
         super(prop);
         this.state = {
             ingredientsList: [],
-            showMainPage: true
+            showMainPage: true,
+            autoCompleteArr: []
+
         }
+        this.input = '';
         this.recipeObjArray = [];
+        this.key = 'a3a214ea83184a19990692c16b8bfc42';
+
     }
 
     added(ingredient) {
@@ -24,7 +30,6 @@ class SearchIngredients extends React.Component {
     remove(event) {
         let selector = event.target.id;
         let newArr = this.state.ingredientsList;
-        debugger
         newArr.splice(selector - 1, 1);
         this.setState({ ingredientsList: newArr })
     }
@@ -37,25 +42,38 @@ class SearchIngredients extends React.Component {
 
     async getRecipesFromAPI() {
         console.log('got here');
-        const response = await fetch(`https://api.spoonacular.com/recipes/findByIngredients?apiKey=a3a214ea83184a19990692c16b8bfc42&ingredients=${this.state.ingredientsList}&ranking=1&ignorePantry=true`);
-        console.log(response);
+        const response = await fetch(`https://api.spoonacular.com/recipes/findByIngredients?apiKey=${this.key}&ingredients=${this.state.ingredientsList}&ranking=1&ignorePantry=true`);
         return await response.json();
 
     }
+    async getAutoCompleteFromAPI() {
+        const response = await fetch(`https://api.spoonacular.com/food/ingredients/autocomplete?apiKey=${this.key}&query=${this.input}l&number=5`);
+        console.log("Response Before Json");
+        console.log(response)
+        return await response.json();
+    }
+    async handleAutoComplete() {
+        this.input = document.getElementById('addedIngredient').value;
+        let response = await this.getAutoCompleteFromAPI();
+        console.log("Response After Json");
+        console.log(response)
+        let arr = [];
+        response.map(word => arr.push(word.name));
+        this.setState({ autoCompleteArr: arr });
+        return null;
+    }
 
     render() {
-        const { ingredientsList, showMainPage } = this.state;
+        const { ingredientsList, showMainPage, autoCompleteArr } = this.state;
         let counter = 0;
         if (showMainPage) {
 
             return (
                 <div>
-                    <input type="text" placeholder="Add Ingredients" id='addedIngredient'></input>
-                    <button onClick={() => {
-                        this.added(document.getElementById('addedIngredient'));
-                    }}>Add</button>
+                    <input type="text" placeholder="Add Ingredients" id='addedIngredient' onChange={() => this.handleAutoComplete()}></input>
+                    <button onClick={() => this.added(document.getElementById('addedIngredient'))}>Add</button>
+                    {autoCompleteArr.map((ingredient, i) => <AutoComplete key={i} ingredient={ingredient} />)}
                     <div className="ingredientsList my-3 border border-light">
-                        <h4>Ingredients List</h4>
                         {ingredientsList.map((ingredient, i) => {
                             counter++;
                             return (
